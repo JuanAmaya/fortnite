@@ -14,3 +14,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+main {
+  background-color: #18191a;
+  min-height: 100vh;
+  /* user-select: none; */
+}
+
+.skinImg {
+  transition: 0.3s ease-in-out;
+}
+
+.skinCard:hover .skinImg {
+  transform: scale(1.2);
+}
