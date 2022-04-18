@@ -1,6 +1,6 @@
 import { Heading, Image, Box, Icon, Flex } from "@chakra-ui/react";
 import Link from "next/link";
-import SkinText from "./skinText";
+import SkinText from "./SkinText";
 import { UilEstate } from "@iconscout/react-unicons";
 
 const skinInfo = (props) => {
