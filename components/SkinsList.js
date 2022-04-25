@@ -4,7 +4,7 @@ import Card from "./UI/Card";
 
 const SkinsList = (props) => {
   return (
-    <UnorderedList>
+    <UnorderedList marginLeft="0">
       <Grid
         templateColumns="repeat(auto-fit, minmax(9rem, 1fr))"
         maxW="50rem"
