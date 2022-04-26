@@ -189,7 +189,7 @@ export default function Home() {
           </Heading> */}
           <Image
             as={motion.img}
-            src="/forniteLogo.png"
+            src="/ForniteLogo.png"
             alt="Fortnite Logo"
             h="50px"
             zIndex="10"
