@@ -1,4 +1,4 @@
-import { Heading, Image, Box, Icon, Flex } from "@chakra-ui/react";
+import { Heading, Image, Box, Icon, Flex, Button } from "@chakra-ui/react";
 import Link from "next/link";
 import SkinText from "./SkinText";
 import { UilEstate } from "@iconscout/react-unicons";
@@ -148,7 +148,8 @@ const skinInfo = (props) => {
         overflowY="hidden"
         overflowX="visible"
         // textOverflow="clip"
-        w="200vw"
+        minW="150vw"
+        w="max-content"
         position={["static", "static", "static", "absolute"]}
         textTransform="uppercase"
         top="-7rem"
@@ -202,26 +203,26 @@ const skinInfo = (props) => {
       </Flex>
 
       <Link href="/">
-        <Box
+        <Button
           as={motion.div}
           position="absolute"
           fontSize="2rem"
           bottom="1rem"
-          left={["50%", "50%", "50%", "5%"]}
+          left={["52%", "52%", "52%", "5%"]}
           marginLeft="-50px"
-          bg="blackAlpha.500"
-          padding=".5rem 1rem"
+          bg="blackAlpha.400"
+          _hover={{ bg: "#63B3ED" }}
+          padding="1.5rem"
           borderRadius="5px"
-          _hover={{ transition: ".3s", bg: "blue.300" }}
           variants={boxVariants}
           initial="hidden"
           animate="visible"
         >
           <Icon as={UilEstate} color="gray.300" />
-        </Box>
+        </Button>
       </Link>
 
-      <Box paddingBottom="7rem" />
+      <Box paddingBottom="5rem" />
     </Box>
   );
 };

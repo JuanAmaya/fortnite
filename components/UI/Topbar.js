@@ -10,18 +10,20 @@ const topbarVariants = {
   },
   visible: {
     width: "100vw",
-    borderRadius: "35%",
+    borderRadius: "30%",
     y: 0,
     background: [
       "linear-gradient(90deg, #409AE2, #80D4F6)",
       "linear-gradient(90deg,#80D4F6,  #409AE2)",
+      "linear-gradient(90deg, #409AE2, #80D4F6)",
     ],
     transition: {
       duration: 0.5,
       ease: "easeInOut",
       background: {
         duration: 1,
-        yoyo: Infinity,
+        repeat: Infinity,
+        duration: 3,
       },
     },
   },
