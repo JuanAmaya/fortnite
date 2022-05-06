@@ -8,6 +8,7 @@ import { UilPlus } from "@iconscout/react-unicons";
 import ModalError from "../components/UI/ModalError";
 import NoSkinError from "../components/UI/NoSkinError";
 import { motion } from "framer-motion";
+import Topbar from "../components/UI/Topbar";
 
 export default function Home() {
   const [skins, setSkins] = useState([]);
@@ -18,6 +19,7 @@ export default function Home() {
   const [searched, setSearched] = useState(false);
   const [allSearchedSkins, setAllSearchedSkins] = useState([]);
   const [skinsEmpty, setSkinsEmpty] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const fetchSkinsHandler = useCallback(async () => {
     setIsLoading(true);
@@ -119,6 +121,10 @@ export default function Home() {
     console.log("skins", skins);
     console.log("Todas las skins", allSearchedSkins);
     console.log("valor contSkins", contSkins);
+
+    if (moreLoadedSkins.length === allSearchedSkins.length) {
+      setButtonDisabled(true);
+    }
   };
 
   let content = <LoadingSkeleton />;
@@ -147,70 +153,8 @@ export default function Home() {
       </Head>
 
       <main>
-        <Center>
-          <motion.div
-            style={{
-              width: "100vw",
-              maxWidth: "100%",
-              height: 130,
-              marginTop: "-1.5rem",
-              position: "absolute",
-              borderRadius: "35%",
-              zIndex: "1",
-            }}
-            animate={{
-              background: ["#409AE2", "#80D4F6", "#409AE2"],
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-          />
-          {/* <Heading
-            as={motion.div}
-            fontSize="5xl"
-            color="white"
-            mt="2"
-            zIndex="5"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {
-                scale: 0.8,
-                opacity: 0,
-              },
-              visible: {
-                scale: 1,
-                opacity: 1,
-                transition: {
-                  delay: 0.4,
-                },
-              },
-            }}
-          >
-            F
-          </Heading> */}
-          <Image
-            as={motion.img}
-            src="/ForniteLogo.png"
-            alt="Fortnite Logo"
-            h="50px"
-            zIndex="10"
-            mt="1rem"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {
-                scale: 0.8,
-                opacity: 0,
-              },
-              visible: {
-                scale: 1,
-                opacity: 1,
-                transition: {
-                  delay: 0.4,
-                },
-              },
-            }}
-          />
-        </Center>
+        <Topbar />
+
         <Center>
           <Search onSkinSearch={searchSkin} />
         </Center>
@@ -218,14 +162,16 @@ export default function Home() {
 
         {!searched && (
           <Center>
-            <Button
-              rightIcon={<UilPlus />}
-              colorScheme="purple"
-              onClick={loadSkinsHandler}
-              mb="4"
-            >
-              Load More
-            </Button>
+            {!buttonDisabled && (
+              <Button
+                rightIcon={<UilPlus />}
+                colorScheme="blue"
+                onClick={loadSkinsHandler}
+                mb="4"
+              >
+                Load More
+              </Button>
+            )}
           </Center>
         )}
       </main>

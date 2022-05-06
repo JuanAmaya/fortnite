@@ -1,6 +1,20 @@
 import { Skeleton, Grid } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
+const skeletonVariants = {
+  hidden: {
+    scale: 2,
+    opacity: 0,
+  },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      delay: 0.4,
+    },
+  },
+};
+
 const LoadingSkeleton = () => {
   const n = 15;
 
@@ -16,19 +30,7 @@ const LoadingSkeleton = () => {
       justifyItems="center"
       initial="hidden"
       animate="visible"
-      variants={{
-        hidden: {
-          scale: 0.8,
-          opacity: 0,
-        },
-        visible: {
-          scale: 1,
-          opacity: 1,
-          transition: {
-            delay: 0.4,
-          },
-        },
-      }}
+      variants={skeletonVariants}
     >
       {[...Array(n)].map((e, i) => (
         <Skeleton

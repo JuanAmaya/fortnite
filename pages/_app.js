@@ -5,7 +5,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
-      <NextNProgress color="#6A47C4" />
+      <NextNProgress color="#63B3ED" />
       <CSSReset />
       <Component {...pageProps} />
     </ChakraProvider>

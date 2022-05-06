@@ -101,7 +101,13 @@ export async function getStaticProps({ params }) {
 
     const skinData = data.data.filter((skin) => skin.id === params.outfitId);
 
-    console.log("data", skinData);
+    if (skinData[0].rarity.value === null) {
+      return {
+        redirect: {
+          destination: "/",
+        },
+      };
+    }
 
     const loadedSkin = [];
 
@@ -131,6 +137,9 @@ export async function getStaticProps({ params }) {
     };
   } catch (error) {
     <ModalError errorMessage={error} />;
+    return {
+      notFound: true,
+    };
   }
 }
 
@@ -162,7 +171,7 @@ export async function getStaticPaths() {
     }
 
     return {
-      fallback: false,
+      fallback: "blocking",
       paths: loadedSkins.map((skin) => {
         return {
           params: {

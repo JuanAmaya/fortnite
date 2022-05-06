@@ -1,4 +1,25 @@
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+// const titleVariants = {
+//   hidden: {
+//     opacity: 0,
+//     scale: 0.8,
+//   },
+//   visible: {
+//     opacity: 1,
+//     scale: 1,
+//   },
+// };
+
+// const imageVariants = {
+//   hidden: {
+//     x: -200,
+//   },
+//   visible: {
+//     x: 0,
+//   },
+// };
 
 const Card = (props) => {
   let bg = "radial-gradient(50% 50% at 50% 50%, #B3B3B3 0%, #5A5C5F 100%)";
