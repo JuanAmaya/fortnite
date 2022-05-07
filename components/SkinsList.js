@@ -1,6 +1,19 @@
 import { UnorderedList, ListItem, Grid } from "@chakra-ui/react";
 import Link from "next/link";
 import Card from "./UI/Card";
+import { motion } from "framer-motion";
+
+const gridVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 
 const SkinsList = (props) => {
   return (
@@ -13,6 +26,10 @@ const SkinsList = (props) => {
         mt="5"
         pb="5"
         justifyItems="center"
+        as={motion.div}
+        variants={gridVariants}
+        initial="hidden"
+        animate="visible"
       >
         {props.skins.map((skin) => (
           <Link href={`/outfit/${skin.id}`} key={skin.id} passHref>
