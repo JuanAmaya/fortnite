@@ -10,6 +10,8 @@ import NoSkinError from "../components/UI/NoSkinError";
 import { motion } from "framer-motion";
 import Topbar from "../components/UI/Topbar";
 
+const skinsNum = 20;
+
 export default function Home() {
   const [skins, setSkins] = useState([]);
   const [allSkins, setAllSkins] = useState([]);
@@ -51,8 +53,8 @@ export default function Home() {
         });
       }
 
-      const partSkins = loadedSkins.slice(0, 15);
-      setContSkins(15);
+      const partSkins = loadedSkins.slice(0, skinsNum);
+      setContSkins(skinsNum);
 
       setSkins(partSkins);
       setAllSkins(loadedSkins);
@@ -94,13 +96,14 @@ export default function Home() {
       console.log("vacio");
     }
 
-    if (filteredSkins.length >= 15) {
-      const partFilteredSkins = filteredSkins.slice(0, 15);
+    if (filteredSkins.length >= skinsNum) {
+      const partFilteredSkins = filteredSkins.slice(0, skinsNum);
 
       setSkins(partFilteredSkins);
       setSearched(false);
-      setContSkins(15);
+      setContSkins(skinsNum);
       setSkinsEmpty(false);
+      setButtonDisabled(false);
     } else if (filteredSkins.length === 0) {
       setSkinsEmpty(true);
       setSearched(true);
@@ -108,29 +111,38 @@ export default function Home() {
       setSkins(filteredSkins);
       setSearched(true);
       setSkinsEmpty(false);
+      setButtonDisabled(true);
     }
 
     console.log("skin filtradas", skins);
   };
 
   const loadSkinsHandler = () => {
-    const moreLoadedSkins = allSearchedSkins.slice(0, contSkins + 15);
+    const moreLoadedSkins = allSearchedSkins.slice(0, contSkins + skinsNum);
 
     setSkins(moreLoadedSkins);
-    setContSkins((prevValue) => prevValue + 15);
+    setContSkins((prevValue) => prevValue + skinsNum);
     console.log("skins", skins);
     console.log("Todas las skins", allSearchedSkins);
     console.log("valor contSkins", contSkins);
 
     if (moreLoadedSkins.length === allSearchedSkins.length) {
       setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
     }
   };
 
-  let content = <LoadingSkeleton />;
+  let content = <LoadingSkeleton cardNum={20} />;
 
   if (skins.length > 0) {
-    content = <SkinsList skins={skins} />;
+    content = (
+      <SkinsList
+        skins={skins}
+        loadSkins={loadSkinsHandler}
+        hasMore={buttonDisabled}
+      />
+    );
   }
 
   if (error) {
@@ -160,7 +172,7 @@ export default function Home() {
         </Center>
         <section>{content}</section>
 
-        {!searched && (
+        {/* {!searched && (
           <Center>
             {!buttonDisabled && (
               <Button
@@ -173,7 +185,7 @@ export default function Home() {
               </Button>
             )}
           </Center>
-        )}
+        )} */}
       </main>
     </div>
   );

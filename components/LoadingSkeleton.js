@@ -15,8 +15,10 @@ const skeletonVariants = {
   },
 };
 
-const LoadingSkeleton = () => {
-  const n = 15;
+let n = 20;
+
+const LoadingSkeleton = (props) => {
+  n = props.cardNum;
 
   return (
     <Grid
