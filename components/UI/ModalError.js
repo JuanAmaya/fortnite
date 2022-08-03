@@ -23,14 +23,14 @@ const ModalError = (props) => {
       <Modal isOpen={onOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="#1a1b1c">
-          <ModalHeader color="gray.200">Error</ModalHeader>
+          <ModalHeader color="red.500">Error</ModalHeader>
           <ModalCloseButton />
           <ModalBody color="gray.200">
-            <p>{propNames.errorMessage}</p>
+            <p>{props.errorMessage}</p>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="purple" onClick={refreshPage}>
+            <Button colorScheme="blue" onClick={refreshPage}>
               Refresh
             </Button>
           </ModalFooter>

@@ -15,7 +15,7 @@ const skeletonVariants = {
   },
 };
 
-let n = 20;
+let n = 24;
 
 const LoadingSkeleton = (props) => {
   n = props.cardNum;
@@ -24,7 +24,7 @@ const LoadingSkeleton = (props) => {
     <Grid
       as={motion.div}
       templateColumns="repeat(auto-fit, minmax(9rem, 1fr))"
-      maxW="50rem"
+      maxW="1000px"
       gap="1rem"
       mx="auto"
       mt="5"

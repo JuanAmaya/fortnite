@@ -10,7 +10,7 @@ import NoSkinError from "../components/UI/NoSkinError";
 import { motion } from "framer-motion";
 import Topbar from "../components/UI/Topbar";
 
-const skinsNum = 20;
+const skinsNum = 24;
 
 export default function Home() {
   const [skins, setSkins] = useState([]);
@@ -29,10 +29,9 @@ export default function Home() {
 
     try {
       const response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
+      // if (!response.ok) {
+      //   throw new Error("Something went wrong!");
+      // }
       const data = await response.json();
 
       const filteredData = data.data.filter(
@@ -146,7 +145,7 @@ export default function Home() {
   }
 
   if (error) {
-    content = <ModalError errorMessage={Error} />;
+    content = <ModalError errorMessage={error} />;
   }
 
   if (skinsEmpty) {

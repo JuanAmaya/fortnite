@@ -29,7 +29,7 @@ const SkinsList = (props) => {
       <UnorderedList marginLeft="0">
         <Grid
           templateColumns="repeat(auto-fit, minmax(9rem, 1fr))"
-          maxW="50rem"
+          maxW="1000px"
           gap="1rem"
           mx="auto"
           mt="5"
