@@ -1,13 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import Head from "next/head";
-import { Image, Center, Button, Heading } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import SkinsList from "../components/SkinsList";
 import Search from "../components/UI/Search";
 import LoadingSkeleton from "../components/LoadingSkeleton";
-import { UilPlus } from "@iconscout/react-unicons";
 import ModalError from "../components/UI/ModalError";
 import NoSkinError from "../components/UI/NoSkinError";
-import { motion } from "framer-motion";
 import Topbar from "../components/UI/Topbar";
 
 const skinsNum = 24;
@@ -70,14 +68,6 @@ export default function Home() {
   }, []);
 
   const searchSkin = (skinName) => {
-    // Busqueda con palabra exacta
-    // const filteredSkins = allSkins.filter((skin) => {
-    //   return (
-    //     skin.name.toLowerCase() === skinName.toLowerCase() ||
-    //     skin.rarity.toLowerCase() === skinName.toLowerCase()
-    //   );
-    // });
-
     if (skinName.trim().length === 0) {
       setSkins(allSkins);
     }
@@ -132,7 +122,7 @@ export default function Home() {
     }
   };
 
-  let content = <LoadingSkeleton cardNum={20} />;
+  let content = <LoadingSkeleton cardNum={24} />;
 
   if (skins.length > 0) {
     content = (

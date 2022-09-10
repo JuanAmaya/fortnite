@@ -1,6 +1,5 @@
 import { Center, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 
 // FRAMER MOTION VARIANTS
 const topbarVariants = {

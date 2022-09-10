@@ -1,5 +1,4 @@
 import { Box, Text, Image, Flex } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 
 // const titleVariants = {
 //   hidden: {

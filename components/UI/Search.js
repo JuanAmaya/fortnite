@@ -1,12 +1,5 @@
 import { useRef } from "react";
-import {
-  IconButton,
-  Input,
-  Center,
-  Box,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Input, Box, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { UilSearch } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 

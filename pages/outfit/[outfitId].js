@@ -1,68 +1,8 @@
-import { useRouter } from "next/router";
-import { Fragment, useState, useCallback, useEffect } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import SkinInfo from "../../components/UI/SkinInfo";
 import ModalError from "../../components/UI/ModalError";
 
 const outfitPage = (props) => {
-  // const router = useRouter();
-  // const skinId = router.query.outfitId;
-
-  // const [skinInfo, setSkinInfo] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
-
-  // const fetchSkinData = useCallback(async (skinId) => {
-  //   setIsLoading(true);
-  //   setError(null);
-
-  //   if (skinId === undefined) {
-  //     console.log("Undefined");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch(`https://fortnite-api.com/v2/cosmetics/br`);
-  //     if (!response.ok) {
-  //       throw new Error("Something went wrong!");
-  //     }
-
-  //     const data = await response.json();
-
-  //     const skinData = data.data.filter((skin) => skin.id === skinId);
-
-  //     console.log("data", skinData);
-
-  //     const loadedSkin = [];
-
-  //     let imageSkin;
-  //     for (const key in skinData) {
-  //       if (skinData[key].images.featured === null) {
-  //         imageSkin = skinData[key].images.icon;
-  //       } else {
-  //         imageSkin = skinData[key].images.featured;
-  //       }
-  //       loadedSkin.push({
-  //         id: skinData[key].id,
-  //         rarity: skinData[key].rarity.value,
-  //         name: skinData[key].name,
-  //         img: imageSkin,
-  //       });
-  //     }
-
-  //     console.log(loadedSkin);
-  //     setSkinInfo(loadedSkin[0]);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  //   setIsLoading(false);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchSkinData(skinId);
-  // }, [skinId]);
-
   return (
     <div>
       <Head>
