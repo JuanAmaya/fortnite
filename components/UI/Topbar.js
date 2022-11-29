@@ -1,33 +1,18 @@
 import { Center, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
+const regularBGColor = [
+  "linear-gradient(90deg, #409AE2, #80D4F6)",
+  "linear-gradient(90deg, #80D4F6,  #409AE2)",
+  "linear-gradient(90deg, #409AE2, #80D4F6)",
+];
+const favSkinsBGColor = [
+  "linear-gradient(90deg, #C1687B, #991B36)",
+  "linear-gradient(90deg, #991B36,  #C1687B)",
+  "linear-gradient(90deg, #C1687B, #991B36)",
+];
+
 // FRAMER MOTION VARIANTS
-const topbarVariants = {
-  hidden: {
-    width: "100px",
-    borderRadius: "50%",
-    y: -100,
-  },
-  visible: {
-    width: "100vw",
-    borderRadius: "30%",
-    y: 0,
-    background: [
-      "linear-gradient(90deg, #409AE2, #80D4F6)",
-      "linear-gradient(90deg,#80D4F6,  #409AE2)",
-      "linear-gradient(90deg, #409AE2, #80D4F6)",
-    ],
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-      background: {
-        duration: 1,
-        repeat: Infinity,
-        duration: 3,
-      },
-    },
-  },
-};
 
 const imageVariants = {
   hidden: {
@@ -43,7 +28,30 @@ const imageVariants = {
   },
 };
 
-const Topbar = () => {
+const Topbar = (props) => {
+  const topbarVariants = {
+    hidden: {
+      width: "100px",
+      borderRadius: "50%",
+      y: -100,
+    },
+    visible: {
+      width: "100vw",
+      borderRadius: "30%",
+      y: 0,
+      background: props.changeBG ? favSkinsBGColor : regularBGColor,
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut",
+        background: {
+          duration: 1,
+          repeat: Infinity,
+          duration: 3,
+        },
+      },
+    },
+  };
+
   return (
     <Center>
       <motion.div

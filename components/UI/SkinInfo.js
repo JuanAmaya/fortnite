@@ -1,8 +1,17 @@
-import { Heading, Image, Box, Icon, Flex, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  Image,
+  Box,
+  Icon,
+  Flex,
+  Button,
+  Text,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import SkinText from "./SkinText";
-import { UilEstate } from "@iconscout/react-unicons";
+import { UilEstate, UilHeart, UilHeartBreak } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 // const marqueeVariants = {
 //   animate: {
@@ -75,7 +84,23 @@ const letterAni = {
   },
 };
 
+const bottomBorderVariants = {
+  hidden: {
+    width: 0,
+  },
+  visible: {
+    width: "70%",
+    transition: {
+      delay: 0.4,
+    },
+  },
+};
+
 const skinInfo = (props) => {
+  const [likedSkins, setLikedSkins] = useState([]);
+  const [buttonBGColor, setButtonBGColor] = useState("gray");
+  const [buttonIcon, setButtonIcon] = useState(<UilHeart />);
+
   let bg = "#B3B3B3";
 
   switch (props.rarity) {
@@ -124,7 +149,7 @@ const skinInfo = (props) => {
       break;
 
     case "starwars":
-      bg = " #00064E ";
+      bg = " #0A1833 ";
       break;
 
     case "icon":
@@ -135,6 +160,42 @@ const skinInfo = (props) => {
       bg = "#312B7B ";
       break;
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("likedSkins") === null) {
+      localStorage.setItem("likedSkins", JSON.stringify(likedSkins));
+    } else {
+      const currentLikedSkins = JSON.parse(localStorage.getItem("likedSkins"));
+      if (currentLikedSkins.indexOf(props.id) !== -1) {
+        setButtonBGColor("red");
+        setButtonIcon(<UilHeart />);
+      } else {
+        setButtonBGColor("gray");
+        setButtonIcon(<UilHeartBreak />);
+      }
+    }
+  }, []);
+
+  const handleLike = () => {
+    console.log(props.id);
+    const currentLikedSkins = JSON.parse(localStorage.getItem("likedSkins"));
+
+    if (currentLikedSkins.indexOf(props.id) !== -1) {
+      const filteredLikedSkins = currentLikedSkins.filter(
+        (skin) => skin !== props.id
+      );
+      localStorage.setItem("likedSkins", JSON.stringify(filteredLikedSkins));
+      setButtonBGColor("gray");
+      setButtonIcon(<UilHeartBreak />);
+    } else {
+      localStorage.setItem(
+        "likedSkins",
+        JSON.stringify([...currentLikedSkins, props.id])
+      );
+      setButtonBGColor("red");
+      setButtonIcon(<UilHeart />);
+    }
+  };
 
   return (
     <Box position="relative" overflow="hidden" minH="100vh">
@@ -180,6 +241,18 @@ const skinInfo = (props) => {
             initial="hidden"
             animate="visible"
           />
+          <Flex
+            h="5px"
+            w="70%"
+            background={bg}
+            margin="0 auto"
+            borderRadius="5px"
+            mb="1rem"
+            as={motion.div}
+            variants={bottomBorderVariants}
+            initial="hidden"
+            animate="visible"
+          ></Flex>
         </Box>
 
         <Box
@@ -189,13 +262,22 @@ const skinInfo = (props) => {
           top="40%"
           padding="1rem"
           marginX={["1rem", "2rem", "3rem", "0"]}
-          bg="blackAlpha.400"
+          bg="#111315"
           borderRadius="10px"
           marginRight={["1rem", "2rem", "3rem", "2rem"]}
           variants={boxVariants}
           initial="hidden"
           animate="visible"
         >
+          <Button
+            onClick={handleLike}
+            colorScheme={buttonBGColor}
+            pos="absolute"
+            right="1rem"
+          >
+            {buttonIcon}
+          </Button>
+
           <SkinText title="Description" text={props.description} />
           <SkinText title="Rarity" text={props.rarity} />
           <SkinText title="Introduction" text={props.introduction} />
@@ -211,7 +293,8 @@ const skinInfo = (props) => {
           left={["52%", "52%", "52%", "5%"]}
           marginLeft="-50px"
           bg="blackAlpha.400"
-          _hover={{ bg: "#63B3ED" }}
+          _hover={{ bg: `${bg}` }}
+          _focus={{ bg: `${bg}` }}
           padding="1.5rem"
           borderRadius="5px"
           variants={boxVariants}

@@ -1,12 +1,14 @@
 import { useState, useCallback, useEffect } from "react";
 import Head from "next/head";
-import { Center } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
 import SkinsList from "../components/SkinsList";
 import Search from "../components/UI/Search";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import ModalError from "../components/UI/ModalError";
 import NoSkinError from "../components/UI/NoSkinError";
 import Topbar from "../components/UI/Topbar";
+import { UilFrown, UilHeartBreak } from "@iconscout/react-unicons";
+import SelectionButtons from "../components/UI/selectionButtons";
 
 const skinsNum = 24;
 
@@ -20,6 +22,10 @@ export default function Home() {
   const [allSearchedSkins, setAllSearchedSkins] = useState([]);
   const [skinsEmpty, setSkinsEmpty] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loadingSkeletonDisabled, setLoadingSkeletonDisabled] = useState(false);
+  const [likedSkins, setLikedSkins] = useState([]);
+  const [favoriteSkinsTab, setFavoriteSkinsTab] = useState();
+  const [likedSkinsData, setLikedSkinsData] = useState([]);
 
   const fetchSkinsHandler = useCallback(async () => {
     setIsLoading(true);
@@ -40,8 +46,15 @@ export default function Home() {
       );
 
       const loadedSkins = [];
+      let skinsSet = "";
 
       for (const key in filteredData) {
+        // if (filteredData[key].set === null) {
+        //   console.log("null");
+        // } else {
+        //   skinsSet = filteredData[key].set;
+        // }
+
         loadedSkins.push({
           id: filteredData[key].id,
           rarity: filteredData[key].rarity.value,
@@ -122,9 +135,53 @@ export default function Home() {
     }
   };
 
+  const favoriteComponentTab = (componentState) => {
+    console.log(componentState);
+    setFavoriteSkinsTab(componentState);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("likedSkins") === null) {
+      localStorage.setItem("likedSkins", JSON.stringify(likedSkins));
+    } else {
+      const currentLikedSkins = JSON.parse(localStorage.getItem("likedSkins"));
+      setLikedSkins(currentLikedSkins);
+    }
+  }, []);
+
+  useEffect(() => {
+    const favoriteSkins = allSkins.filter(
+      (skin) => likedSkins.indexOf(skin.id) !== -1
+    );
+
+    setLikedSkinsData(favoriteSkins);
+
+    if (likedSkinsData.length === 0) {
+      console.log("vacio");
+    }
+
+    if (likedSkinsData.length >= skinsNum) {
+      const partFilteredSkins = likedSkinsData.slice(0, skinsNum);
+
+      // setSkins(partFilteredSkins);
+      // setSearched(false);
+      // setContSkins(skinsNum);
+      // setSkinsEmpty(false);
+      setLoadingSkeletonDisabled(false);
+    } else if (likedSkinsData.length === 0) {
+      // setSkinsEmpty(true);
+      // setSearched(true);
+    } else {
+      // setSkins(likedSkinsData);
+      // setSearched(true);
+      // setSkinsEmpty(false);
+      setLoadingSkeletonDisabled(true);
+    }
+  }, [allSkins, likedSkins]);
+
   let content = <LoadingSkeleton cardNum={24} />;
 
-  if (skins.length > 0) {
+  if (skins.length > 0 && !favoriteSkinsTab) {
     content = (
       <SkinsList
         skins={skins}
@@ -134,12 +191,36 @@ export default function Home() {
     );
   }
 
+  if (skins.length > 0 && favoriteSkinsTab && likedSkinsData.length > 0) {
+    content = (
+      <SkinsList
+        skins={likedSkinsData}
+        loadSkins={loadSkinsHandler}
+        hasMore={loadingSkeletonDisabled}
+      />
+    );
+  }
+
+  if (likedSkinsData.length === 0 && favoriteSkinsTab) {
+    content = (
+      <NoSkinError
+        iconError={<UilHeartBreak width="3rem" height="3rem" />}
+        textError="No Liked Skins"
+      />
+    );
+  }
+
   if (error) {
     content = <ModalError errorMessage={error} />;
   }
 
   if (skinsEmpty) {
-    content = <NoSkinError />;
+    content = (
+      <NoSkinError
+        iconError={<UilFrown width="3rem" height="3rem" />}
+        textError="No Skins Found"
+      />
+    );
   }
 
   return (
@@ -154,27 +235,16 @@ export default function Home() {
       </Head>
 
       <main>
-        <Topbar />
+        <Topbar changeBG={favoriteSkinsTab} />
 
-        <Center>
-          <Search onSkinSearch={searchSkin} />
+        <Center flexDir="column" gap="1rem">
+          <Search
+            onSkinSearch={searchSkin}
+            onFavoriteComponent={favoriteComponentTab}
+          />
+          <SelectionButtons />
         </Center>
         <section>{content}</section>
-
-        {/* {!searched && (
-          <Center>
-            {!buttonDisabled && (
-              <Button
-                rightIcon={<UilPlus />}
-                colorScheme="blue"
-                onClick={loadSkinsHandler}
-                mb="4"
-              >
-                Load More
-              </Button>
-            )}
-          </Center>
-        )} */}
       </main>
     </div>
   );

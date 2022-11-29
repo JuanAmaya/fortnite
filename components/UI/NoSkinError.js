@@ -1,15 +1,15 @@
 import { UilFrown } from "@iconscout/react-unicons";
-import { Box, Text, Center } from "@chakra-ui/react";
+import { Box, Text, Center, propNames } from "@chakra-ui/react";
 
-const NoSkinError = () => {
+const NoSkinError = (props) => {
   return (
     <Center mt="100">
       <Box color="gray.200">
         <Box display="flex" justifyContent="center">
-          <UilFrown width="3rem" height="3rem" />
+          {props.iconError}
         </Box>
         <Text textAlign="center" fontSize="2rem">
-          No Skins Found
+          {props.textError}
         </Text>
       </Box>
     </Center>

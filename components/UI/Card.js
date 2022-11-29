@@ -68,7 +68,7 @@ const Card = (props) => {
       break;
 
     case "starwars":
-      bg = "radial-gradient(50% 50% at 50% 50%, #00064E 0%, #000219 100%)";
+      bg = "radial-gradient(50% 50% at 50% 50%, #0A1833 0%, #040A14 100%)";
       break;
 
     case "icon":

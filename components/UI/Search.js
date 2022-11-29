@@ -1,6 +1,13 @@
-import { useRef } from "react";
-import { Input, Box, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { UilSearch } from "@iconscout/react-unicons";
+import { useRef, useState } from "react";
+import {
+  Input,
+  Box,
+  InputGroup,
+  InputLeftElement,
+  Button,
+  Flex,
+} from "@chakra-ui/react";
+import { UilSearch, UilHeart, UilEstate } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 
 const searchVariants = {
@@ -19,6 +26,7 @@ const searchVariants = {
 
 const Search = (props) => {
   const skinNameInputRef = useRef();
+  const [favoriteComponent, setFavoriteComponent] = useState(true);
 
   const searchSkinHandler = (event) => {
     event.preventDefault();
@@ -33,14 +41,21 @@ const Search = (props) => {
     props.onSkinSearch(enteredSkin);
   };
 
+  const favoriteComponentHandler = () => {
+    setFavoriteComponent(!favoriteComponent);
+    props.onFavoriteComponent(favoriteComponent);
+  };
+
   return (
-    <Box
+    <Flex
       as={motion.form}
       mt="2rem"
       onSubmit={searchSkinHandler}
       variants={searchVariants}
       initial="hidden"
       animate="visible"
+      flexDirection="horizontal"
+      gap="1rem"
     >
       <InputGroup>
         <InputLeftElement pointerEvents="none">
@@ -58,7 +73,14 @@ const Search = (props) => {
           onChange={searchSkinHandler}
         />
       </InputGroup>
-    </Box>
+      <Button
+        leftIcon={favoriteComponent ? <UilHeart /> : <UilEstate />}
+        colorScheme={favoriteComponent ? "red" : "blue"}
+        onClick={favoriteComponentHandler}
+      >
+        {favoriteComponent ? "Favs" : "Home"}
+      </Button>
+    </Flex>
   );
 };
 

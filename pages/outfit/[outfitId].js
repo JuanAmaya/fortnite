@@ -1,8 +1,13 @@
 import Head from "next/head";
 import SkinInfo from "../../components/UI/SkinInfo";
 import ModalError from "../../components/UI/ModalError";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "@chakra-ui/react";
 
 const outfitPage = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   return (
     <div>
       <Head>
@@ -15,6 +20,7 @@ const outfitPage = (props) => {
       </Head>
       <main>
         <SkinInfo
+          id={props.outfit.id}
           name={props.outfit.name}
           img={props.outfit.img}
           description={props.outfit.description}
@@ -52,12 +58,14 @@ export async function getStaticProps({ params }) {
     const loadedSkin = [];
 
     let imageSkin;
+
     for (const key in skinData) {
       if (skinData[key].images.featured === null) {
         imageSkin = skinData[key].images.icon;
       } else {
         imageSkin = skinData[key].images.featured;
       }
+
       loadedSkin.push({
         id: skinData[key].id,
         rarity: skinData[key].rarity.value,
@@ -104,9 +112,6 @@ export async function getStaticPaths() {
     for (const key in filteredData) {
       loadedSkins.push({
         id: filteredData[key].id,
-        rarity: filteredData[key].rarity.value,
-        name: filteredData[key].name,
-        img: filteredData[key].images.icon,
       });
     }
 

@@ -23,8 +23,8 @@ const SkinsList = (props) => {
       dataLength={props.skins.length}
       next={props.loadSkins}
       hasMore={!props.hasMore}
-      loader={<LoadingSkeleton cardNum={5} />}
-      style={{ width: "100vw", ["overflow-x"]: "hidden" }}
+      loader={<LoadingSkeleton cardNum={6} />}
+      style={{ width: "100vw", overflowX: "hidden" }}
     >
       <UnorderedList marginLeft="0">
         <Grid
