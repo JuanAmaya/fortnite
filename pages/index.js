@@ -242,7 +242,7 @@ export default function Home() {
             onSkinSearch={searchSkin}
             onFavoriteComponent={favoriteComponentTab}
           />
-          <SelectionButtons />
+          {/* <SelectionButtons /> */}
         </Center>
         <section>{content}</section>
       </main>
