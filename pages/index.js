@@ -8,7 +8,7 @@ import ModalError from "../components/UI/ModalError";
 import NoSkinError from "../components/UI/NoSkinError";
 import Topbar from "../components/UI/Topbar";
 import { UilFrown, UilHeartBreak } from "@iconscout/react-unicons";
-import SelectionButtons from "../components/UI/selectionButtons";
+import SelectionButtons from "../components/UI/SelectionButtons";
 import useHttp from "./api/use-http";
 
 const skinsNum = 24;
