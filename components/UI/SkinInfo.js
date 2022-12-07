@@ -306,4 +306,4 @@ const SkinInfo = (props) => {
   );
 };
 
-export default skinInfo;
+export default SkinInfo;
