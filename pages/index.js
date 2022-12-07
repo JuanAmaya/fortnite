@@ -9,14 +9,13 @@ import NoSkinError from "../components/UI/NoSkinError";
 import Topbar from "../components/UI/Topbar";
 import { UilFrown, UilHeartBreak } from "@iconscout/react-unicons";
 import SelectionButtons from "../components/UI/selectionButtons";
+import useHttp from "./api/use-http";
 
 const skinsNum = 24;
 
 export default function Home() {
   const [skins, setSkins] = useState([]);
   const [allSkins, setAllSkins] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [contSkins, setContSkins] = useState(0);
   const [searched, setSearched] = useState(false);
   const [allSearchedSkins, setAllSearchedSkins] = useState([]);
@@ -26,59 +25,82 @@ export default function Home() {
   const [likedSkins, setLikedSkins] = useState([]);
   const [favoriteSkinsTab, setFavoriteSkinsTab] = useState();
   const [likedSkinsData, setLikedSkinsData] = useState([]);
+  const [skinsTab, setSkinsTab] = useState(false);
+  const [backpacksTab, setBackpacksTab] = useState(false);
+  const [pickaxesTab, setPickaxesTab] = useState(false);
 
-  const fetchSkinsHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
+  const { isLoading, error, fetchCosmeticsHandler } = useHttp();
 
-    try {
-      const response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
-      // if (!response.ok) {
-      //   throw new Error("Something went wrong!");
-      // }
-      const data = await response.json();
+  // const fetchSkinsHandler = useCallback(async () => {
+  //   setIsLoading(true);
+  //   setError(null);
 
-      const filteredData = data.data.filter(
-        (skin) =>
-          skin.type.value === "outfit" &&
-          skin.description !== "TBD" &&
-          skin.introduction !== null
-      );
+  //   try {
+  //     const response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
+  //     // if (!response.ok) {
+  //     //   throw new Error("Something went wrong!");
+  //     // }
+  //     const data = await response.json();
 
-      const loadedSkins = [];
-      let skinsSet = "";
+  //     const filteredData = data.data.filter(
+  //       (skin) =>
+  //         skin.type.value === "outfit" &&
+  //         skin.description !== "TBD" &&
+  //         skin.introduction !== null
+  //     );
 
-      for (const key in filteredData) {
-        // if (filteredData[key].set === null) {
-        //   console.log("null");
-        // } else {
-        //   skinsSet = filteredData[key].set;
-        // }
+  //     const loadedSkins = [];
+  //     let skinsSet = "";
 
-        loadedSkins.push({
-          id: filteredData[key].id,
-          rarity: filteredData[key].rarity.value,
-          name: filteredData[key].name,
-          img: filteredData[key].images.icon,
-        });
-      }
+  //     for (const key in filteredData) {
+  //       loadedSkins.push({
+  //         id: filteredData[key].id,
+  //         rarity: filteredData[key].rarity.value,
+  //         name: filteredData[key].name,
+  //         img: filteredData[key].images.icon,
+  //       });
+  //     }
 
-      const partSkins = loadedSkins.slice(0, skinsNum);
+  //     const partSkins = loadedSkins.slice(0, skinsNum);
+  //     setContSkins(skinsNum);
+
+  //     setSkins(partSkins);
+  //     setAllSkins(loadedSkins);
+  //     setAllSearchedSkins(loadedSkins);
+  //     console.log(loadedSkins);
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  //   setIsLoading(false);
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchSkinsHandler();
+  // }, []);
+
+  let type = 'outfit';
+
+  useEffect(() => {
+    if (skinsTab) {
+      type = 'outfit';
+    } else if (backpacksTab) {
+      type = 'backpack';
+    } else if (pickaxesTab) {
+      type = 'pickaxe';
+    }
+
+    const transformCosmetics = (cosmeticsObj) => {
+      console.log('dentrooo', cosmeticsObj);
+      const partSkins = cosmeticsObj.slice(0, skinsNum);
       setContSkins(skinsNum);
 
       setSkins(partSkins);
-      setAllSkins(loadedSkins);
-      setAllSearchedSkins(loadedSkins);
-      console.log(loadedSkins);
-    } catch (error) {
-      setError(error.message);
-    }
-    setIsLoading(false);
-  }, []);
+      setAllSkins(cosmeticsObj);
+      setAllSearchedSkins(cosmeticsObj);
+    };
 
-  useEffect(() => {
-    fetchSkinsHandler();
-  }, []);
+    fetchCosmeticsHandler({ cosmeticType: type }, transformCosmetics);
+  }, [fetchCosmeticsHandler, skinsTab, backpacksTab, pickaxesTab]);
 
   const searchSkin = (skinName) => {
     if (skinName.trim().length === 0) {
@@ -93,10 +115,6 @@ export default function Home() {
     });
 
     setAllSearchedSkins(filteredSkins);
-
-    if (filteredSkins.length === 0) {
-      console.log("vacio");
-    }
 
     if (filteredSkins.length >= skinsNum) {
       const partFilteredSkins = filteredSkins.slice(0, skinsNum);
@@ -124,9 +142,6 @@ export default function Home() {
 
     setSkins(moreLoadedSkins);
     setContSkins((prevValue) => prevValue + skinsNum);
-    console.log("skins", skins);
-    console.log("Todas las skins", allSearchedSkins);
-    console.log("valor contSkins", contSkins);
 
     if (moreLoadedSkins.length === allSearchedSkins.length) {
       setButtonDisabled(true);
@@ -136,8 +151,25 @@ export default function Home() {
   };
 
   const favoriteComponentTab = (componentState) => {
-    console.log(componentState);
     setFavoriteSkinsTab(componentState);
+  };
+
+  const itemTabHandler = ({ skinsTab, backpacksTab, pickaxesTab }) => {
+    console.log("backpack", backpacksTab);
+    console.log("pickaxe", pickaxesTab);
+    if (skinsTab) {
+      setSkinsTab(true);
+      setBackpacksTab(false);
+      setPickaxesTab(false);
+    } else if (backpacksTab) {
+      setSkinsTab(false);
+      setBackpacksTab(true);
+      setPickaxesTab(false);
+    } else if (pickaxesTab) {
+      setSkinsTab(false);
+      setBackpacksTab(false);
+      setPickaxesTab(true);
+    };
   };
 
   useEffect(() => {
@@ -223,6 +255,10 @@ export default function Home() {
     );
   }
 
+  if (isLoading) {
+    content = <LoadingSkeleton cardNum={24} />;
+  }
+
   return (
     <div>
       <Head>
@@ -242,7 +278,7 @@ export default function Home() {
             onSkinSearch={searchSkin}
             onFavoriteComponent={favoriteComponentTab}
           />
-          {/* <SelectionButtons /> */}
+          <SelectionButtons onItemTab={itemTabHandler} />
         </Center>
         <section>{content}</section>
       </main>

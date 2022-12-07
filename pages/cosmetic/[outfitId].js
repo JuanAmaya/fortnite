@@ -1,13 +1,8 @@
 import Head from "next/head";
 import SkinInfo from "../../components/UI/SkinInfo";
 import ModalError from "../../components/UI/ModalError";
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "@chakra-ui/react";
 
 const outfitPage = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-
   return (
     <div>
       <Head>

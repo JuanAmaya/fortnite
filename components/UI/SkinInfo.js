@@ -218,8 +218,8 @@ const skinInfo = (props) => {
         variants={banner}
         initial="initial"
         animate="animate"
-        // variants={marqueeVariants}
-        // animate="animate"
+      // variants={marqueeVariants}
+      // animate="animate"
       >
         {[...props.name].map((letter, i) => (
           <motion.span variants={letterAni} key={i}>
@@ -269,16 +269,12 @@ const skinInfo = (props) => {
           initial="hidden"
           animate="visible"
         >
-          <Button
+          <SkinText title="Description" text={props.description} likeButton={<Button
             onClick={handleLike}
             colorScheme={buttonBGColor}
-            pos="absolute"
-            right="1rem"
           >
             {buttonIcon}
-          </Button>
-
-          <SkinText title="Description" text={props.description} />
+          </Button>} />
           <SkinText title="Rarity" text={props.rarity} />
           <SkinText title="Introduction" text={props.introduction} />
         </Box>

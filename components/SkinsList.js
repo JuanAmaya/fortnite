@@ -41,7 +41,7 @@ const SkinsList = (props) => {
           animate="visible"
         >
           {props.skins.map((skin) => (
-            <Link href={`/outfit/${skin.id}`} key={skin.id} passHref>
+            <Link href={`/cosmetic/${skin.id}`} key={skin.id} passHref>
               <ListItem key={skin.id} listStyleType="none">
                 <Card name={skin.name} rarity={skin.rarity} img={skin.img} />
               </ListItem>
