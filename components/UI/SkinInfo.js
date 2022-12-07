@@ -96,7 +96,7 @@ const bottomBorderVariants = {
   },
 };
 
-const skinInfo = (props) => {
+const SkinInfo = (props) => {
   const [likedSkins, setLikedSkins] = useState([]);
   const [buttonBGColor, setButtonBGColor] = useState("gray");
   const [buttonIcon, setButtonIcon] = useState(<UilHeart />);
