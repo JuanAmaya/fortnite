@@ -31,53 +31,6 @@ export default function Home() {
 
   const { isLoading, error, fetchCosmeticsHandler } = useHttp();
 
-  // const fetchSkinsHandler = useCallback(async () => {
-  //   setIsLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
-  //     // if (!response.ok) {
-  //     //   throw new Error("Something went wrong!");
-  //     // }
-  //     const data = await response.json();
-
-  //     const filteredData = data.data.filter(
-  //       (skin) =>
-  //         skin.type.value === "outfit" &&
-  //         skin.description !== "TBD" &&
-  //         skin.introduction !== null
-  //     );
-
-  //     const loadedSkins = [];
-  //     let skinsSet = "";
-
-  //     for (const key in filteredData) {
-  //       loadedSkins.push({
-  //         id: filteredData[key].id,
-  //         rarity: filteredData[key].rarity.value,
-  //         name: filteredData[key].name,
-  //         img: filteredData[key].images.icon,
-  //       });
-  //     }
-
-  //     const partSkins = loadedSkins.slice(0, skinsNum);
-  //     setContSkins(skinsNum);
-
-  //     setSkins(partSkins);
-  //     setAllSkins(loadedSkins);
-  //     setAllSearchedSkins(loadedSkins);
-  //     console.log(loadedSkins);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  //   setIsLoading(false);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchSkinsHandler();
-  // }, []);
-
   let type = 'outfit';
 
   useEffect(() => {
@@ -234,10 +187,19 @@ export default function Home() {
   }
 
   if (likedSkinsData.length === 0 && favoriteSkinsTab) {
+    let cosmeticMissing = 'No Liked Skins';
+    if (skinsTab) {
+      cosmeticMissing = 'No Liked Skins';
+    } else if (backpacksTab) {
+      cosmeticMissing = 'No Liked Backpacks';
+    } else if (pickaxesTab) {
+      cosmeticMissing = 'No Liked Pickaxes';
+    }
+
     content = (
       <NoSkinError
         iconError={<UilHeartBreak width="3rem" height="3rem" />}
-        textError="No Liked Skins"
+        textError={cosmeticMissing}
       />
     );
   }
