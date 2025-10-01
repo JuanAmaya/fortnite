@@ -6,3 +6,4 @@ Proyecto web basado en donde el usuario puede observar los distintos cosméticos
 - Next.js
 - Chakra UI
 - Framer Motion
+- Fortnite API
